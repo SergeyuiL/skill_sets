@@ -1,23 +1,6 @@
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
-# PREDEFINED_POS = {
-#     "cabinet": (np.array([1.999, 2.831, 0.255]), np.array([0.000, 0.000, 0.089, 0.996])),
-#     "table": (np.array([-1.444, 4.062, 0.255]), np.array([0.000, 0.000, -0.219, 0.976])),
-#     "bed": (np.array([0.892, -1.344, -0.242]), np.array([0.000, 0.000, 0.024, 1.000])),
-#     "home": (np.array([-3.603, -2.838, 0.255]), np.array([0.000, 0.000, 0.685, 0.728])),
-#     "water": (np.array([-6.663, 2.464, 0.255]), np.array([0.000, 0.000, 0.956, 0.295])),
-#     "sofa": (np.array([-1.904, 3.169, 0.255]), np.array([0.000, 0.000, -0.265, 0.964])),
-# }
-# PREDEFINED_POS = {
-#     "储藏柜": (np.array([1.999, 2.831, 0.255]), np.array([0.000, 0.000, 0.089, 0.996])),
-#     "桌子": (np.array([-1.444, 4.062, 0.255]), np.array([0.000, 0.000, -0.219, 0.976])),
-#     "床": (np.array([0.892, -1.344, -0.242]), np.array([0.000, 0.000, 0.024, 1.000])),
-#     "home": (np.array([-3.603, -2.838, 0.255]), np.array([0.000, 0.000, 0.685, 0.728])),
-#     "水": (np.array([-6.663, 2.464, 0.255]), np.array([0.000, 0.000, 0.956, 0.295])),
-#     "sofa": (np.array([-1.904, 3.169, 0.255]), np.array([0.000, 0.000, -0.265, 0.964])),
-# }
-
 '''
 transfer semantic map to dict
 '''
@@ -118,30 +101,17 @@ def find_object_from_map(object_name, sematic_map, container_name=None, object_i
     return (target_pos, target_rot)
 
 '''
-    return [pos, rotation]
+    return [pos, rotation], layer
 '''
 def find_object_from_shelf(object_name, sematic_map):
     try:
         if object_name not in sematic_map["货架"]:
             raise ValueError(f"Class {object_name} is not in the shelf")
-        target_pos = sematic_map["货架"][object_name][0]
-        target_rot = sematic_map["货架"][object_name][1]
+        object_tag = sematic_map["货架"][object_name]["tag"]
+        object_layer = sematic_map["货架"][object_name]["layer"]
+        target_pos = sematic_map["货架"][object_tag][0]
+        target_rot = sematic_map["货架"][object_tag][1]
     except ValueError as e:
             print(e)
             return (None, None)
-    return (np.array(target_pos), np.array(target_rot))
-
-'''
-    raw code frame
-'''
-# def find_object_from_map(object_name, sematic_map, container_name=None):
-#     # return [pos, rotation]
-#     if object_name in PREDEFINED_POS:
-#         pose = PREDEFINED_POS[object_name]
-#         return pose
-#     else:
-#         if container_name is not None and container_name in PREDEFINED_POS:
-#             pose = PREDEFINED_POS[container_name]
-#             return pose
-#         else: 
-#             return (None, None)
+    return (np.array(target_pos), np.array(target_rot)), object_layer

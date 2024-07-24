@@ -38,7 +38,7 @@ class RobotSkillSets(Node):
         self._update_status("find", 1)
         current_position = self.base_handler.position[0:2]
         if container_name == "货架":
-            target_pose = find_object_from_shelf(object_name=object_name, sematic_map=self.sematic_map)
+            target_pose, object_layer = find_object_from_shelf(object_name=object_name, sematic_map=self.sematic_map)
         else:
             target_pose = find_object_from_map(object_name=object_name, sematic_map=self.sematic_map, container_name=container_name, current_pose=current_position)
         if target_pose[0] is None:
