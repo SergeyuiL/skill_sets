@@ -1,0 +1,11 @@
+# "find, go_home, grasp, place"
+string operation_name
+# "water, coca, chips"
+string object
+
+string container
+# "over, in, nearby" only used for "place" 
+string relationship
+---
+bool success
+string error_info

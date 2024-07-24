@@ -1,0 +1,7 @@
+string camera_name
+string object_name
+bool start_detect
+---
+bool success
+geometry_msgs/Pose grasp_pose
+string info

@@ -1,0 +1,8 @@
+string camera_name
+string object_name
+sensor_msgs/Image color_image
+---
+bool success
+int32[] bbox 
+sensor_msgs/Image mask
+string info
