@@ -36,5 +36,5 @@ initial_pose:
 ```shell
 ros2 run build_semantic_map build_semantic_map
 
-ros2 service call /build_semantic_map skillsets_msg/srv/SetSlam "{cmd: 'build', mapdir: '/home/sg/workspace/top-down-map/data/0720', filename: 'map_save'}"
+ros2 service call /build_semantic_map skillsets_msg/srv/SetSlam "{cmd: 'build', mapdir: '/home/nvidia/maps/20240808', filename: 'B1'}"
 ```

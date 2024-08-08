@@ -35,7 +35,7 @@ class SemanticMapBuilderService(Node):
             response.message = "Invalid map_dir or filename. "
             return response
         
-        object_info_path = os.path.join(map_dir, filename + ".json")
+        object_info_path = os.path.join("/home/nvidia/skillsets_ws/src/skill_sets/py_robot_skills/maps", filename + ".json")
 
         try:
             self.get_logger().info("Start to build semantic map...")

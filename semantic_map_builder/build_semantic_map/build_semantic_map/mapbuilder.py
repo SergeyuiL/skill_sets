@@ -50,24 +50,31 @@ class MapBuilder:
         self.merge_time = None
         self.seg_time = None
         
-        self.ckpt_dir = "/home/nvidia/workspace/checkpoint"
-        pt_path = os.path.join(self.ckpt_dir, "yolov8x-seg.pt")
-        engine_path = os.path.join(self.ckpt_dir, "yolov8x-seg.engine")
-        if not os.path.exists(self.ckpt_dir):
-            os.makedirs(self.ckpt_dir)
-        settings.update({"runs_dir": data_dir, "weights_dir": self.ckpt_dir})
-        
-        if not os.path.exists(engine_path):
-            if not os.path.exists(pt_path):
-                self.raw_model = YOLO("yolov8x-seg.pt")
-            else:
-                self.raw_model = YOLO(pt_path)
-            self.raw_model.export(format="engine", dynamic=True, batch=1) 
-            self.model = YOLO("yolov8x-seg.engine")
-        else:
-            self.raw_model = YOLO(pt_path)
-            self.model = YOLO(engine_path)
+        self.ckpt_dir = "/home/nvidia/skillsets_ws/src/skill_sets/semantic_map_builder/checkpoint"
+        pt_path = os.path.join(self.ckpt_dir, "best.pt")
+        engine_path = os.path.join(self.ckpt_dir, "best.engine")
+        self.raw_model = YOLO(pt_path, task='segment')
+        self.model = YOLO(engine_path, task='segment')
         self.class_names = self.raw_model.names
+        # pt_path = os.path.join(self.ckpt_dir, "yolov8x-seg.pt")
+        # engine_path = os.path.join(self.ckpt_dir, "yolov8x-seg.engine")
+        # if not os.path.exists(self.ckpt_dir):
+        #     os.makedirs(self.ckpt_dir)
+        # settings.update({"runs_dir": data_dir, "weights_dir": self.ckpt_dir})
+        
+        # if not os.path.exists(engine_path):
+        #     if not os.path.exists(pt_path):
+        #         self.raw_model = YOLO("yolov8x-seg.pt")
+        #     else:
+        #         self.raw_model = YOLO(pt_path)
+        #     self.raw_model.export(format="engine", dynamic=True, batch=1) 
+        #     self.model = YOLO("yolov8x-seg.engine")
+        # else:
+        #     self.raw_model = YOLO(pt_path)
+        #     self.model = YOLO(engine_path)
+        # self.class_names = self.raw_model.names
+        
+        
         # self.model = YOLO(pt_path)
         # self.class_names = self.model.names
         
@@ -399,7 +406,7 @@ class MapBuilder:
         
             
 if __name__ == "__main__":
-    data_dir = "/home/nvidia/mapsave/0720"
+    data_dir = "/home/nvidia/maps/20240808"
     
     trans_camera_base = [0.08278859935292791, -0.03032243564439939, 1.0932014910932797]
     quat_camera_base = [-0.48836894018639176, 0.48413701319615116, -0.5135400532533373, 0.5132092598729002]
@@ -420,7 +427,7 @@ if __name__ == "__main__":
     # ssmap = mapbuilder(data_dir, trans_camera_footprint, quat_camera_footprint)
     ssmap = MapBuilder(data_dir, trans_camera_base, quat_camera_base, map2base_link_origin, is_map_origin=True)
     ssmap.data_load()
-    # ssmap.seg_rgb(confidence=0.5)
+    ssmap.seg_rgb(confidence=0.5)
     ssmap.build_2dmap(max_depth=6000, DBSCAN_eps=0.1, DBSCAN_min_samples=190, voxel_size=0.05)
     # ssmap.show_contours(use_pgm=False)
     # ssmap.merge_pointcloud()
