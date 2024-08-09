@@ -26,26 +26,26 @@ class RobotSkillSets(Node):
         self.func_map = {"找到物体": self.find_object,
                          "回家": self.go_home,
                          "放置物体": self.place_object,
-                         "拿起物体": self.grasp}
-        with open("/home/nvidia/walle_ws/src/py_robot_skills/maps/object_info.json", 'r') as f:
+                         "拿起物体": self.grasp}            
+        self.map_path = "/home/nvidia/skillsets_ws/src/skill_sets/py_robot_skills/maps/B1.json"
+        with open(self.map_path, 'r') as f:
             self.sematic_map = json.load(f)
-        # self.sematic_map = None
 
     # def find_object(self, object_name, container_name, object_index, relationship):
     def find_object(self, object_name, container_name, relationship):
         # relationship will not be used
-        # self.task_start_base_pose = self._get_current_base_pose()
         self._update_status("find", 1)
         current_position = self.base_handler.position[0:2]
+        # self.get_logger().info(f"test: {object_name}")
         if container_name == "货架":
             target_pose, object_layer = find_object_from_shelf(object_name=object_name, sematic_map=self.sematic_map)
         else:
             target_pose = find_object_from_map(object_name=object_name, sematic_map=self.sematic_map, container_name=container_name, current_pose=current_position)
-        if target_pose[0] is None:
-            success = False
-            info = "cannot find the object {}".format(object_name)
-            self.get_logger().info(info)
-            return success, info
+            if target_pose[0] is None:
+                success = False
+                info = "cannot find the object {}".format(object_name)
+                self.get_logger().info(info)
+                return success, info
         self.get_logger().info(f"Find object: {object_name}, Current position: {current_position}, Target position: {target_pose}")
         success, info = self.base_handler.move_to(target_pose[0], target_pose[1], frame_id="world")
         # success = True

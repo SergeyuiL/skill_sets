@@ -197,6 +197,7 @@ class MapBuilder:
     def build_2dmap(self, max_depth=6000, DBSCAN_eps=0.05, DBSCAN_min_samples=50, voxel_size=0.1, kernel_size=7):
         class_point_clouds = {}
         all_class_ids = []
+        mass_classes = ['storage basket', 'door', 'door handle']
         
         print("Start to merge 2D contours")
         cluster_2d_start_time = time.time()
@@ -228,6 +229,9 @@ class MapBuilder:
                 points = np.array(label_data[1:]).reshape(-1, 2)
 
                 class_name = self.class_names[class_id]
+                if class_name in mass_classes:
+                    # print(f"Get mass class:{class_name}, continue!")
+                    continue
                 if class_name not in class_point_clouds:
                     class_point_clouds[class_name] = o3d.geometry.PointCloud()
                 points[:, 0] *= seg_image.shape[1]
@@ -407,9 +411,8 @@ class MapBuilder:
             
 if __name__ == "__main__":
     data_dir = "/home/nvidia/maps/20240808"
-    
-    trans_camera_base = [0.08278859935292791, -0.03032243564439939, 1.0932014910932797]
-    quat_camera_base = [-0.48836894018639176, 0.48413701319615116, -0.5135400532533373, 0.5132092598729002]
+    trans_camera_base = [0.07992725371130696, -0.04192086603435837, 1.3467514828245077]
+    quat_camera_base = [-0.4833235028331, 0.48665728519877355, -0.5084449268770554, 0.520621584939664]
     map2base_link_origin = np.array([[-0.347, 0.938, 0.000, 2.229],
                                     [-0.938, -0.347, -0.000, 9.121],
                                     [-0.000, 0.000, 1.000, 0.255],

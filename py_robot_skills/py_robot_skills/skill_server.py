@@ -19,6 +19,8 @@ class SkillServer(Node):
 
         timer_period = 0.1
         self.timer = self.create_timer(timer_period, self.publish_status)
+        
+        # self.get_logger().info("Test:this is the new pkg in skillsets_ws")
     
 
     def exec_cb(self, request: Skill.Request, response: Skill.Response):

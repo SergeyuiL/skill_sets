@@ -15,10 +15,10 @@ def find_object_from_shelf(object_name, sematic_map):
     return (np.array(target_pos), np.array(target_rot)), object_layer
 
 def main():
-    map_path = "/home/drl/dev_ws/src/skill_sets/py_robot_skills/maps/object_info.json"
+    map_path = "/home/nvidia/skillsets_ws/src/skill_sets/py_robot_skills/maps/B1.json"
     with open(map_path, 'r') as f:
             sematic_map = json.load(f)
-    object_name = "可乐"
+    object_name = "雪碧"
     target_pose, object_layer = find_object_from_shelf(object_name, sematic_map) 
     print(f"Find object name: {object_name}; Target pose: {target_pose}; Target object layer: {object_layer}") 
     

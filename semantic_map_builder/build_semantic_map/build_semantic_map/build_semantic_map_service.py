@@ -13,8 +13,8 @@ class SemanticMapBuilderService(Node):
     def __init__(self):
         super().__init__('semantic_map_builder_service')
         self.srv = self.create_service(SetSlam, 'build_semantic_map', self.build_map_callback)
-        self.trans_camera_base = [0.08278859935292791, -0.03032243564439939, 1.0932014910932797]
-        self.quat_camera_base = [-0.48836894018639176, 0.48413701319615116, -0.5135400532533373, 0.5132092598729002]
+        self.trans_camera_base = [0.07992725371130696, -0.04192086603435837, 1.3467514828245077]
+        self.quat_camera_base = [-0.4833235028331, 0.48665728519877355, -0.5084449268770554, 0.520621584939664]
         self.map2base_link_origin = np.array([[-0.347, 0.938, 0.000, 2.229],
                                     [-0.938, -0.347, -0.000, 9.121],
                                     [-0.000, 0.000, 1.000, 0.255],

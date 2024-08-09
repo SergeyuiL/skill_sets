@@ -183,10 +183,9 @@ class Base(Node):
         elif result_code == NavigateToPose.Result.ROBOT_IN_VIRTUAL_WALL:
             self.info("Navigation action: robot in the wall!")
         else:
-            self.info(f"Invalid result_code: {result_code}")
+            self.info(f"Success result_code: {result_code}")
         self.info(self.result.result_message)
-        
-            
+          
     def move_forward(self, distance, speed=0.5):
         self.cancel()
         success = True
